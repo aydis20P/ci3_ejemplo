@@ -13,7 +13,8 @@ class News extends CI_Controller {
         $data['news'] = $this->news_model->get_news();
         $data['title'] = 'News archive';
 
-        $this->load->view('news/index', $data);
+        var_dump($data);
+        //$this->load->view('news/index', $data);
 }
 
         public function view($slug = NULL)
