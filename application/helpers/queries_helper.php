@@ -10,6 +10,6 @@ if ( ! function_exists('get_by'))
                 }
 
                 $query = $db->get_where($table, array($row => $field));
-                return $query->row_array();
+                return $query->result_array();
     }
 }
