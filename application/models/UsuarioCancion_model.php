@@ -1,5 +1,5 @@
 <?php
-class UsuarioCancion_model extends CI_Model {
+class Usuariocancion_model extends CI_Model {
 
         public function __construct()
         {
