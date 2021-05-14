@@ -41,6 +41,13 @@ class Usuariocancion_model extends CI_Model {
                 'usuario_id' => $usuario_id,
                 'cancion_id' => $cancion_id 
             );
+            // Verificamos que exitan el usuario y la cancion
+            $query_usuario = $this->db->get_where('usuario', array('id'=>$usuario_id));
+            $query_cancion = $this->db->get_where('usuario', array('id'=>$cancion_id));
+            if(empty($query_usuario->result_array())||empty($query_cancion->result_array())){
+                echo 'no exite el usuario o la canción...';
+                return;
+            }
             // Verificamos que el usuario tenga o no la canción en su playlist
             $query = $this->db->get_where('usuario_cancion', $data);
             if(!empty($query->result_array())){
@@ -57,6 +64,12 @@ class Usuariocancion_model extends CI_Model {
          * usuario_cancion.
          */
         public function delete_usuario_cancion($id){
-            echo $this->db->delete('usuario_cancion', array('id' => $id));
+            $query = $this->db->get_where('usuario_cancion', array('id' => $id));
+            if(empty($query->result_array())){
+                echo 'el registro con id: ', $id, ' en usuario_cancion no exíste';
+            }
+            else{
+                echo $this->db->delete('usuario_cancion', array('id' => $id));
+            }
         }
 }

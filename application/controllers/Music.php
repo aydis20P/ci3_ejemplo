@@ -100,45 +100,55 @@ class Music extends CI_Controller {
                  */
                 $this->load->library('form_validation');
 
-                if(!empty(file_get_contents('php://input'))){// "php://input" es un flujo de sólo lectura que permite leer datos del cuerpo solicitado
-                        //Haciendo la petición en postman enviando un objeto json en el body
-                        $json_obj = file_get_contents('php://input');
-                        $obj = json_decode($json_obj);//parseamos el string que representa un objeto json a un objeto php
-                        if (!empty($obj->usuario_id) && !empty($obj->cancion_id)){//validación de campos requeridos
-                                return $this->usuariocancion_model->create_usuario_cancion($obj->usuario_id, $obj->cancion_id);
-                        }
+                if ($_SERVER['REQUEST_METHOD'] === 'POST'){
+                        if(!empty(file_get_contents('php://input'))){// "php://input" es un flujo de sólo lectura que permite leer datos del cuerpo solicitado
+                                //Haciendo la petición en postman enviando un objeto json en el body
+                                $json_obj = file_get_contents('php://input');
+                                $obj = json_decode($json_obj);//parseamos el string que representa un objeto json a un objeto php
+                                if (!empty($obj->usuario_id) && !empty($obj->cancion_id)){//validación de campos requeridos
+                                        return $this->usuariocancion_model->create_usuario_cancion($obj->usuario_id, $obj->cancion_id);
+                                }
+                                else{
+                                        echo 'usuario_id y cancion_id requeridos';
+                                }
+                        }            
                         else{
-                                echo 'usuario_id y cancion_id requeridos';
+                                $this->form_validation->set_rules('usuario_id', 'usuario_id', 'required');
+                                $this->form_validation->set_rules('cancion_id', 'cancion_id', 'required');
+                                if ($this->form_validation->run() === FALSE){//validación de campos requeridos
+                                        echo 'usuario_id y cancion_id requeridos';
+                                }
+                                else{
+                                        //haciendo la petición mediante el uso del fomulario
+                                        $usuario_id = $this->input->post('usuario_id');
+                                        $cancion_id = $this->input->post('cancion_id');
+                                        return $this->usuariocancion_model->create_usuario_cancion($usuario_id, $cancion_id);
+                                }
                         }
-                }            
-                else{
-                        $this->form_validation->set_rules('usuario_id', 'usuario_id', 'required');
-                        $this->form_validation->set_rules('cancion_id', 'cancion_id', 'required');
-                        if ($this->form_validation->run() === FALSE){//validación de campos requeridos
-                                echo 'usuario_id y cancion_id requeridos';
-                        }
-                        else{
-                                //haciendo la petición mediante el uso del fomulario
-                                $usuario_id = $this->input->post('usuario_id');
-                                $cancion_id = $this->input->post('cancion_id');
-                                return $this->usuariocancion_model->create_usuario_cancion($usuario_id, $cancion_id);
-                        }
+                }
+                else {
+                        echo 'REQUEST_METHOD inconrrecto, se esperaba POST';
                 }
         }
 
         public function delete_usuario_cancion(){
-                if(!empty(file_get_contents('php://input'))){
-                        $json_obj = file_get_contents('php://input');
-                        $obj = json_decode($json_obj);
-                        if (!empty($obj->id)){
-                                return $this->usuariocancion_model->delete_usuario_cancion($obj->id);
+                if ($_SERVER['REQUEST_METHOD'] === 'DELETE'){
+                        if(!empty(file_get_contents('php://input'))){
+                                $json_obj = file_get_contents('php://input');
+                                $obj = json_decode($json_obj);
+                                if (!empty($obj->id)){
+                                        return $this->usuariocancion_model->delete_usuario_cancion($obj->id);
+                                }
+                                else{
+                                        echo 'id requerido';
+                                }
                         }
                         else{
-                                echo 'id requerido';
+                                echo 'no se envío informacion en el body del documento...';
                         }
                 }
-                else{
-                        echo 'no se envío informacion en el body del documento...';
+                else {
+                        echo 'REQUEST_METHOD inconrrecto, se esperaba DELETE';
                 }
         }
 }
