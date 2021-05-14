@@ -56,6 +56,7 @@ $route['music/canciones'] = 'music/get_canciones';
 $route['music/usuarios'] = 'music/get_usuarios';
 $route['music/usuarios_cancion'] = 'music/get_usuarios_cancion';
 $route['music/usuarios_cancion/create'] = 'music/create_usuario_cancion';
+$route['music/usuarios_cancion/delete/(:any)'] = 'music/delete_usuario_cancion/$1';
 $route['music/playlist_usuario/(:any)'] = 'music/get_playlist_usuario/$1';
 $route['music/usuarios_cancion/(:any)'] = 'music/get_usuario_cancion/$1';
 $route['music/canciones/(:any)'] = 'music/get_cancion/$1';

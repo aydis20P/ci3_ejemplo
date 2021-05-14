@@ -94,6 +94,10 @@ class Music extends CI_Controller {
         }
 
         public function create_usuario_cancion(){
+                /**
+                 * Importante: en este método solo se hacen validaciones de forma,
+                 * las validaciones de lógica de negocio se hacen en el modelo.
+                 */
                 $this->load->library('form_validation');
 
                 if(!empty(file_get_contents('php://input'))){// "php://input" es un flujo de sólo lectura que permite leer datos del cuerpo solicitado
@@ -119,6 +123,22 @@ class Music extends CI_Controller {
                                 $cancion_id = $this->input->post('cancion_id');
                                 return $this->usuariocancion_model->create_usuario_cancion($usuario_id, $cancion_id);
                         }
+                }
+        }
+
+        public function delete_usuario_cancion(){
+                if(!empty(file_get_contents('php://input'))){
+                        $json_obj = file_get_contents('php://input');
+                        $obj = json_decode($json_obj);
+                        if (!empty($obj->id)){
+                                return $this->usuariocancion_model->delete_usuario_cancion($obj->id);
+                        }
+                        else{
+                                echo 'id requerido';
+                        }
+                }
+                else{
+                        echo 'no se envío informacion en el body del documento...';
                 }
         }
 }

@@ -41,6 +41,22 @@ class Usuariocancion_model extends CI_Model {
                 'usuario_id' => $usuario_id,
                 'cancion_id' => $cancion_id 
             );
-            return $this->db->insert('usuario_cancion', $data);
+            // Verificamos que el usuario tenga o no la canción en su playlist
+            $query = $this->db->get_where('usuario_cancion', $data);
+            if(!empty($query->result_array())){
+                echo '¡El usuario ', $data['usuario_id'], ' ya tiene la cancion con id: ', $data['cancion_id'], ' en su playlist!';
+            }
+            // Si no la tiene, la agregamos
+            else{
+                echo $this->db->insert('usuario_cancion', $data);
+            }
+        }
+
+        /**
+         * Método para elimina el registro con id = $id de la tabla
+         * usuario_cancion.
+         */
+        public function delete_usuario_cancion($id){
+            echo $this->db->delete('usuario_cancion', array('id' => $id));
         }
 }
