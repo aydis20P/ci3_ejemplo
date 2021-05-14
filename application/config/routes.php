@@ -49,7 +49,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | Examples:	my-controller/index	-> my_controller/index
 |		my-controller/my-method	-> my_controller/my_method
 */
-$route['music/(:any)'] = 'music/playlist/$1';
+$route['construye'] = 'start';
+$route['destruye'] = 'start/destruye';
+$route['reinicia'] = 'start/reinicia';
+$route['music/canciones'] = 'music/get_canciones';
+$route['music/usuarios'] = 'music/get_usuarios';
+$route['music/canciones/(:any)'] = 'music/get_cancion/$1';
+$route['music/usuarios/(:any)/(:any)'] = 'music/get_usuario';
 $route['music'] = 'music';
 $route['default_controller'] = 'welcome';
 $route['404_override'] = '';
