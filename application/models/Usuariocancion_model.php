@@ -28,8 +28,21 @@ class Usuariocancion_model extends CI_Model {
          * Método que regresa los registros de usuario_cancion
          * asociados al usuario correspondiente
          */
-        public function get_playlist_usuario($usuario_id){
-            return get_by($this->db, 'usuario_cancion', 'usuario_id', $usuario_id);
+        public function get_playlist_usuario($user_name){
+            // Obtener el id del usuario
+            $query = $this->db->get_where('usuario', array('user_name' => $user_name));
+            $usuario_id = $query->row_array()['id'];
+            // Obteneos los registros usuario_cancion del usuario
+            $usuarios_cancion = get_by($this->db, 'usuario_cancion', 'usuario_id', $usuario_id);
+            
+            $canciones = array();
+            foreach ($usuarios_cancion as $usuario_cancion) {
+                $cancion = $this->db->get_where('cancion', array('id' => $usuario_cancion['cancion_id']));
+                array_push($canciones, $cancion->row_array());
+            }
+
+            return array('user_name' => $user_name,
+                            'canciones' => $canciones);
         }
 
         /**

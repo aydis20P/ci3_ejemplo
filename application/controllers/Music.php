@@ -83,13 +83,13 @@ class Music extends CI_Controller {
                 }
         }
 
-        public function get_playlist_usuario($usuario_id){
-                $playlist = $this->usuariocancion_model->get_playlist_usuario($usuario_id);
+        public function get_playlist_usuario($user_name){
+                $playlist = $this->usuariocancion_model->get_playlist_usuario($user_name);
                 if(! empty($playlist)){
                         echo json_encode($playlist);                         
                 }
                 else{
-                        echo 'No hay usuarios_cancion asociados al usuario con id: ', $usuario_id, 'en la DB';
+                        echo 'No hay usuarios_cancion asociados al usuario: ', $user_name, 'en la DB';
                 }
         }
 
