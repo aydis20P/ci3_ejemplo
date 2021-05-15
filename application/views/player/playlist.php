@@ -13,7 +13,7 @@
             var uri = "http://localhost:8080" + "/index.php/music/playlist_usuario/" + user_name;
         }
         else{
-            var uri = "http://" + domain + "/index.php/music/playlist_usuario/" + user_name;
+            var uri = "https://" + domain + "/index.php/music/playlist_usuario/" + user_name;
         }
 
         var xmlhttp = new XMLHttpRequest();
