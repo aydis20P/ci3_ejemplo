@@ -8,6 +8,14 @@
 
     function getPlaylist() {
         var user_name = '<?php echo $user_name ?>';
+        var domain = window.location.hostname;
+        if(domain=='localhost'){
+            var uri = "http://localhost:8080" + "/index.php/music/playlist_usuario/" + user_name;
+        }
+        else{
+            var uri = "http://" + domain + "/index.php/music/playlist_usuario/" + user_name;
+        }
+
         var xmlhttp = new XMLHttpRequest();
 
         xmlhttp.onreadystatechange = function() {
@@ -18,7 +26,7 @@
             }
         };
 
-        xmlhttp.open("GET", "http://localhost:8080/index.php/music/playlist_usuario/" + user_name, true);
+        xmlhttp.open("GET", uri, true);
         xmlhttp.send();
     }
 </script>
