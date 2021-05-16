@@ -38,10 +38,10 @@
         var user_name = '<?php echo $user_name ?>';
         var domain = window.location.hostname;
         if(domain=='localhost'){
-            var uri = "http://localhost:8080" + "/index.php/music/playlist_usuario/" + user_name;
+            var uri = "http://localhost:8080" + "/index.php/music/playlist/" + user_name;
         }
         else{
-            var uri = "https://" + domain + "/index.php/music/playlist_usuario/" + user_name;
+            var uri = "https://" + domain + "/index.php/music/playlist/" + user_name;
         }
 
         var xmlhttp = new XMLHttpRequest();
