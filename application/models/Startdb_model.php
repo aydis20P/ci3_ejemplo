@@ -46,27 +46,27 @@ class Startdb_model extends CI_Model {
         $canciones = $this->db->get('cancion');
         if (empty($canciones->result_array())){
                 $data = array(
-                        'src' => 'http://ccmixter.org/content/airtone/airtone_-_blackSnow.mp3',
-                        'nombre' => 'black snow',
-                        'artista' => 'airtone'
+                        'src' => 'https://freemusicarchive.org/track/11_Not_Enough/download',
+                        'nombre' => 'Not Enough',
+                        'artista' => 'TaaPet'
                 );
                 echo 'Creación de canción test, ', ' rows affected: ', 
                         $this->db->insert('cancion', $data), 
                         '<br>';
 
                 $data = array(
-                        'src' => 'http://ccmixter.org/content/djlang59/djlang59_-_Peace_and_Blessings.mp3',
-                        'nombre' => 'peace and blessings',
-                        'artista' => 'djlang59'
+                        'src' => 'https://freemusicarchive.org/track/24_Ziletky/download',
+                        'nombre' => 'Žiletky',
+                        'artista' => 'Tvrdý/Havelka '
                 );
                 echo 'Creación de canción test, ', ' rows affected: ', 
                         $this->db->insert('cancion', $data), 
                         '<br>';
 
                 $data = array(
-                        'src' => 'http://ccmixter.org/content/acrylicbathhouse/acrylicbathhouse_-_Resonance.mp3',
-                        'nombre' => 'resonance',
-                        'artista' => 'acrylicbathhouse'
+                        'src' => 'https://freemusicarchive.org/track/23__/download',
+                        'nombre' => 'Άλλες Ζωές',
+                        'artista' => 'Dimitris Bakoulis'
                 );
                 echo 'Creación de canción test, ', ' rows affected: ', 
                         $this->db->insert('cancion', $data), 
