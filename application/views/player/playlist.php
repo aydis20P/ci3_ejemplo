@@ -30,7 +30,7 @@
         </div>
     </div> 
     <!-- canciones container -->
-    <div class="row mt-3">
+    <div class="row mt-3 mb-3">
         <div class="col">
             <div class="card text-white bg-dark mb-3">
                 <div class="card-body table-responsive">
@@ -53,6 +53,8 @@
 </div>
 
 <script>
+    var usuario_id = null;
+
     window.onload = function() {
         getPlaylist();
         getCanciones();
@@ -76,6 +78,7 @@
             var response = null;
             if (this.readyState == 4 && this.status == 200) {
                 response = JSON.parse(this.responseText);
+                usuario_id = response.id;
                 //console.log(response);
                 var tbody = document.getElementById("playlist-body");
                 response.canciones.forEach(cancion => {
@@ -130,6 +133,7 @@
                     var add = document.createElement("button");
                     add.setAttribute("class", "btn btn-success btn-floating");
                     add.setAttribute("type", "button");
+                    add.setAttribute("onclick", "agregarAPlaylist('" + cancion.id +"')");
                     add.innerHTML = "<i class='fas fa-plus'></i>";
                     dataAdd.appendChild(add);
 
@@ -166,5 +170,38 @@
         document.getElementById("player-container").innerHTML = player;
         document.getElementById("card-player").hidden = false;
         document.getElementById("player").play();
+    }
+
+    function agregarAPlaylist(cancion_id){
+        console.log("entré a agregar a playlist");
+        var formData = new FormData();
+        var domain = window.location.hostname;
+
+        formData.append('usuario_id', usuario_id);
+        formData.append('cancion_id', cancion_id);
+
+        if(domain=='localhost'){
+            var uri = "http://localhost:8080" + "/index.php/music/usuarios_cancion/create";
+        }
+        else{
+            var uri = "https://" + domain + "/index.php/music/usuarios_cancion/create";
+        }
+
+        var xmlhttp = new XMLHttpRequest();
+
+        xmlhttp.onreadystatechange = function() {
+            var response = null;
+            if (this.readyState == 4 && this.status == 200) {
+                response = this.responseText;
+                console.log("response:" + response);
+                if (response == 1){
+                    document.getElementById("playlist-body").innerHTML = "";
+                    getPlaylist();
+                }
+            }
+        }
+
+        xmlhttp.open("POST", uri, true);
+        xmlhttp.send(formData);
     }
 </script>

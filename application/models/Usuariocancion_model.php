@@ -42,6 +42,7 @@ class Usuariocancion_model extends CI_Model {
             }
 
             return array('user_name' => $user_name,
+                            'id' => $usuario_id,
                             'canciones' => $canciones);
         }
 
