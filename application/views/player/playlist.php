@@ -21,6 +21,7 @@
                                 <th scope="col"></th>
                                 <th scope="col">Artista</th>
                                 <th scope="col">Título</th>
+                                <th scope="col">Quitar de mi lista</th>
                             </tr>
                         </thead>
                         <tbody id="playlist-body"></tbody>
@@ -97,9 +98,18 @@
                     dataNombre.innerHTML = cancion.nombre;
                     dataArtista.innerHTML = cancion.artista;
 
+                    var dataQuitar = document.createElement("td");
+                    var quitar = document.createElement("button");
+                    quitar.setAttribute("class", "btn btn-success btn-floating");
+                    quitar.setAttribute("type", "button");
+                    quitar.setAttribute("onclick", "quitarDePlaylist('" + cancion.id +"')");
+                    quitar.innerHTML = "<i class='fas fa-times'></i>";
+                    dataQuitar.appendChild(quitar);
+
                     row.appendChild(dataPlay);
                     row.appendChild(dataArtista);
                     row.appendChild(dataNombre);
+                    row.appendChild(dataQuitar);
 
                     tbody.appendChild(row);
                 });
@@ -203,5 +213,36 @@
 
         xmlhttp.open("POST", uri, true);
         xmlhttp.send(formData);
+    }
+
+    function quitarDePlaylist(cancion_id){
+        console.log("entré a agregar a playlist");
+        var formData = new FormData();
+        var domain = window.location.hostname;
+
+        if(domain=='localhost'){
+            var uri = "http://localhost:8080" + "/index.php/music/usuarios_cancion/delete";
+        }
+        else{
+            var uri = "https://" + domain + "/index.php/music/usuarios_cancion/delete";
+        }
+
+        var xmlhttp = new XMLHttpRequest();
+
+        xmlhttp.onreadystatechange = function() {
+            var response = null;
+            if (this.readyState == 4 && this.status == 200) {
+                response = this.responseText;
+                console.log("response:" + response);
+                if (response == 1){
+                    document.getElementById("playlist-body").innerHTML = "";
+                    getPlaylist();
+                }
+            }
+        }
+
+        xmlhttp.open("DELETE", uri, true);
+        xmlhttp.send('{ "usuario_id" : ' + usuario_id + ", " +
+                        '"cancion_id" : ' + cancion_id + "}");
     }
 </script>

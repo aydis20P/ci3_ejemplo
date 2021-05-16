@@ -74,16 +74,16 @@ class Usuariocancion_model extends CI_Model {
         }
 
         /**
-         * Método para elimina el registro con id = $id de la tabla
-         * usuario_cancion.
+         * Método para elimina el registro con usuario_id = $usuario_id 
+         * y cancion_id = $cancion_id de la tabla usuario_cancion.
          */
-        public function delete_usuario_cancion($id){
-            $query = $this->db->get_where('usuario_cancion', array('id' => $id));
+        public function delete_usuario_cancion($usuario_id, $cancion_id){
+            $query = $this->db->get_where('usuario_cancion', array('usuario_id' => $usuario_id, 'cancion_id'=>$cancion_id));
             if(empty($query->result_array())){
-                echo 'el registro con id: ', $id, ' en usuario_cancion no exíste';
+                echo 'el registro no exíste';
             }
             else{
-                echo $this->db->delete('usuario_cancion', array('id' => $id));
+                echo $this->db->delete('usuario_cancion', array('id' => $query->row_array()['id']));
             }
         }
 }

@@ -131,16 +131,20 @@ class Music extends CI_Controller {
                 }
         }
 
+        /**
+         * Método para eliminar un registro de usuario_cancion
+         * dado el id de la canción y del usuario en el body
+         */
         public function delete_usuario_cancion(){
                 if ($_SERVER['REQUEST_METHOD'] === 'DELETE'){
                         if(!empty(file_get_contents('php://input'))){
                                 $json_obj = file_get_contents('php://input');
                                 $obj = json_decode($json_obj);
-                                if (!empty($obj->id)){
-                                        return $this->usuariocancion_model->delete_usuario_cancion($obj->id);
+                                if (!empty($obj->usuario_id) && !empty($obj->cancion_id)){
+                                        return $this->usuariocancion_model->delete_usuario_cancion($obj->usuario_id, $obj->cancion_id);
                                 }
                                 else{
-                                        echo 'id requerido';
+                                        echo 'el id de la canción y del usuario son requeridos';
                                 }
                         }
                         else{
