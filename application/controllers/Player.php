@@ -21,7 +21,7 @@ class Player extends CI_Controller {
 
         $data['user_name'] = $user_name;
 
-        $this->load->view('templates/header');
+        $this->load->view('templates/header', $data);
         $this->load->view('player/'.$page, $data);
         $this->load->view('templates/footer');
     }

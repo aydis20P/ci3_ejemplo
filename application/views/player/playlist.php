@@ -1,5 +1,6 @@
-<div class="container mt-5">
-    <div class="row">
+<div class="container">
+    <!-- player container -->
+    <div class="row mt-3">
         <div class="col">
             <div hidden id="card-player" class="card text-white bg-dark mb-3">
                 <div id="player-container" class="d-flex card-body justify-content-center">
@@ -8,7 +9,8 @@
             </div>
         </div>
     </div>
-    <div class="row mt-5">
+    <!-- playlist container -->
+    <div class="row mt-3">
         <div class="col">
             <div class="card text-white bg-dark mb-3">
                 <div class="card-body table-responsive">
@@ -21,17 +23,39 @@
                                 <th scope="col">Título</th>
                             </tr>
                         </thead>
-                        <tbody id="http-response"></tbody>
+                        <tbody id="playlist-body"></tbody>
                     </table>
                 </div>
             </div>
         </div>
     </div> 
+    <!-- canciones container -->
+    <div class="row mt-3">
+        <div class="col">
+            <div class="card text-white bg-dark mb-3">
+                <div class="card-body table-responsive">
+                    <h5 class="card-title">Todas las canciones</h5>
+                    <table class="table" style="color : white;">
+                        <thead>
+                            <tr>
+                                <th scope="col"></th>
+                                <th scope="col">Artista</th>
+                                <th scope="col">Título</th>
+                                <th scope="col">Agregar a mi lista</th>
+                            </tr>
+                        </thead>
+                        <tbody id="canciones-body"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 <script>
     window.onload = function() {
         getPlaylist();
+        getCanciones();
     }
 
     function getPlaylist() {
@@ -53,7 +77,7 @@
             if (this.readyState == 4 && this.status == 200) {
                 response = JSON.parse(this.responseText);
                 //console.log(response);
-                var tbody = document.getElementById("http-response");
+                var tbody = document.getElementById("playlist-body");
                 response.canciones.forEach(cancion => {
                     var row = document.createElement("tr");
 
@@ -73,6 +97,59 @@
                     row.appendChild(dataPlay);
                     row.appendChild(dataArtista);
                     row.appendChild(dataNombre);
+
+                    tbody.appendChild(row);
+                });
+            }
+        };
+
+        xmlhttp.open("GET", uri, true);
+        xmlhttp.send();
+    }
+
+    function getCanciones() {
+        var domain = window.location.hostname;
+        if(domain=='localhost'){
+            var uri = "http://localhost:8080" + "/index.php/music/canciones";
+        }
+        else{
+            var uri = "https://" + domain + "/index.php/music/canciones";
+        }
+
+        var xmlhttp = new XMLHttpRequest();
+
+        xmlhttp.onreadystatechange = function() {
+            var response = null;
+            if (this.readyState == 4 && this.status == 200) {
+                response = JSON.parse(this.responseText);
+                var tbody = document.getElementById("canciones-body");
+                response.forEach(cancion => {
+                    var row = document.createElement("tr");
+
+                    var dataAdd = document.createElement("td");
+                    var add = document.createElement("button");
+                    add.setAttribute("class", "btn btn-success btn-floating");
+                    add.setAttribute("type", "button");
+                    add.innerHTML = "<i class='fas fa-plus'></i>";
+                    dataAdd.appendChild(add);
+
+                    var dataPlay = document.createElement("td");
+                    var play = document.createElement("button");
+                    play.setAttribute("class", "btn btn-success btn-floating");
+                    play.setAttribute("type", "button");
+                    play.setAttribute("onclick", "reproducirCancion('" + cancion.src +"')");
+                    play.innerHTML = "<i class='fas fa-play'></i>";
+                    dataPlay.appendChild(play);
+
+                    var dataNombre = document.createElement("td");
+                    var dataArtista = document.createElement("td");
+                    dataNombre.innerHTML = cancion.nombre;
+                    dataArtista.innerHTML = cancion.artista;
+
+                    row.appendChild(dataPlay);
+                    row.appendChild(dataArtista);
+                    row.appendChild(dataNombre);
+                    row.appendChild(dataAdd);
 
                     tbody.appendChild(row);
                 });
