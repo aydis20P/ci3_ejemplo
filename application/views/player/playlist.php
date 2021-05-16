@@ -52,6 +52,7 @@
             var response = null;
             if (this.readyState == 4 && this.status == 200) {
                 response = JSON.parse(this.responseText);
+                console.log(response);
                 var tbody = document.getElementById("http-response");
                 console.log(response);
                 response.canciones.forEach(cancion => {
