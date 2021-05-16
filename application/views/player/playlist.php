@@ -52,7 +52,7 @@
             var response = null;
             if (this.readyState == 4 && this.status == 200) {
                 response = JSON.parse(this.responseText);
-                console.log(response);
+                //console.log(response);
                 var tbody = document.getElementById("http-response");
                 response.canciones.forEach(cancion => {
                     var row = document.createElement("tr");
