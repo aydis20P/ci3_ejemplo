@@ -55,6 +55,7 @@
 
 <script>
     var usuario_id = null;
+    var listaCanciones = [];
 
     window.onload = function() {
         getPlaylist();
@@ -80,6 +81,7 @@
             if (this.readyState == 4 && this.status == 200) {
                 response = JSON.parse(this.responseText);
                 usuario_id = response.id;
+                listaCanciones = [];
                 //console.log(response);
                 var tbody = document.getElementById("playlist-body");
                 response.canciones.forEach(cancion => {
@@ -112,6 +114,9 @@
                     row.appendChild(dataQuitar);
 
                     tbody.appendChild(row);
+
+                    //agregamos a la lista de canciones
+                    listaCanciones.push(cancion);
                 });
             }
         };
@@ -183,7 +188,7 @@
     }
 
     function agregarAPlaylist(cancion_id){
-        console.log("entré a agregar a playlist");
+        //console.log("entré a agregar a playlist");
         var formData = new FormData();
         var domain = window.location.hostname;
 
@@ -203,10 +208,11 @@
             var response = null;
             if (this.readyState == 4 && this.status == 200) {
                 response = this.responseText;
-                console.log("response:" + response);
+                //console.log("response:" + response);
                 if (response == 1){
                     document.getElementById("playlist-body").innerHTML = "";
                     getPlaylist();
+                    document.getElementById("player-container").innerHTML = "";
                 }
             }
         }
@@ -216,7 +222,7 @@
     }
 
     function quitarDePlaylist(cancion_id){
-        console.log("entré a agregar a playlist");
+        //console.log("entré a quitar de playlist");
         var formData = new FormData();
         var domain = window.location.hostname;
 
@@ -233,10 +239,11 @@
             var response = null;
             if (this.readyState == 4 && this.status == 200) {
                 response = this.responseText;
-                console.log("response:" + response);
+                //console.log("response:" + response);
                 if (response == 1){
                     document.getElementById("playlist-body").innerHTML = "";
                     getPlaylist();
+                    document.getElementById("player-container").innerHTML = "";
                 }
             }
         }
@@ -245,4 +252,26 @@
         xmlhttp.send('{ "usuario_id" : ' + usuario_id + ", " +
                         '"cancion_id" : ' + cancion_id + "}");
     }
+
+    function cargaSiguiente(){
+        //revisar si ya terminó la reproducción de la canción actual
+        player = document.getElementById("player");
+        if(player != null && player.ended){
+            //obtener el recurso de la siguiente canción (si lo hay)
+            var nextIndex = -1;
+            for (let i = 0; i < listaCanciones.length; i++) {
+                playerSrc = player.getElementsByTagName("source")[0].src;
+                if(listaCanciones[i].src == playerSrc){
+                    var nextIndex = i + 1;
+                    break;
+                }                
+            }
+            //reproducir siguiente
+            if(nextIndex != -1 && nextIndex != listaCanciones.length){
+                reproducirCancion(listaCanciones[nextIndex].src);
+            }
+        }
+    }
+
+    var playerEnded = setInterval(cargaSiguiente, 3000);
 </script>
