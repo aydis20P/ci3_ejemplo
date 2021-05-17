@@ -57,9 +57,13 @@ class Usuariocancion_model extends CI_Model {
             );
             // Verificamos que exitan el usuario y la cancion
             $query_usuario = $this->db->get_where('usuario', array('id'=>$usuario_id));
-            $query_cancion = $this->db->get_where('usuario', array('id'=>$cancion_id));
-            if(empty($query_usuario->result_array())||empty($query_cancion->result_array())){
-                echo 'no exite el usuario o la canción...';
+            $query_cancion = $this->db->get_where('cancion', array('id'=>$cancion_id));
+            if(empty($query_usuario->result_array())){
+                echo 'no exite el usuario con id: ', $usuario_id;
+                return;
+            }
+            if(empty($query_cancion->result_array())){
+                echo 'no exite la cancion con id: ', $cancion_id;
                 return;
             }
             // Verificamos que el usuario tenga o no la canción en su playlist

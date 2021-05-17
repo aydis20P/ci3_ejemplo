@@ -23,7 +23,11 @@ class Startdb_model extends CI_Model {
                                 'user_name' => 'Usuario'.$i,
                         );
                         echo 'traceback: entré a creación de usuario row'.$i.' rows affected: ', $this->db->insert('usuario', $data), '<br>';//insert regresa el número de rows afected
-                }                        
+                }  
+                $data = array(
+                        'user_name' => 'EfrenV',
+                );
+                echo 'traceback: entré a creación de usuario row'.$i.' rows affected: ', $this->db->insert('usuario', $data), '<br>';                      
         }
         else{
                 foreach ($usuarios->result_array() as $row){
@@ -70,7 +74,25 @@ class Startdb_model extends CI_Model {
                 );
                 echo 'Creación de canción test, ', ' rows affected: ', 
                         $this->db->insert('cancion', $data), 
-                        '<br>';                         
+                        '<br>';
+                        
+                $data = array(
+                        'src' => 'https://freemusicarchive.org/track/comming-back-instrumental-id-1355mp3/download',
+                        'nombre' => 'Comming Back',
+                        'artista' => 'Lobo Loco'
+                );
+                echo 'Creación de canción test, ', ' rows affected: ', 
+                        $this->db->insert('cancion', $data), 
+                        '<br>';  
+
+                $data = array(
+                        'src' => 'https://freemusicarchive.org/track/the-seeker/download',
+                        'nombre' => 'The Seeker',
+                        'artista' => 'Eaters'
+                );
+                echo 'Creación de canción test, ', ' rows affected: ', 
+                        $this->db->insert('cancion', $data), 
+                        '<br>';  
         }
         else{
                 foreach ($canciones->result_array() as $row){

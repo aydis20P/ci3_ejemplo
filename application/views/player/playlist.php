@@ -206,13 +206,13 @@
 
         xmlhttp.onreadystatechange = function() {
             var response = null;
+            //console.log("state: " + this.readyState + " status: " + this.status);
             if (this.readyState == 4 && this.status == 200) {
                 response = this.responseText;
                 //console.log("response:" + response);
                 if (response == 1){
                     document.getElementById("playlist-body").innerHTML = "";
                     getPlaylist();
-                    document.getElementById("player-container").innerHTML = "";
                 }
             }
         }
@@ -243,7 +243,6 @@
                 if (response == 1){
                     document.getElementById("playlist-body").innerHTML = "";
                     getPlaylist();
-                    document.getElementById("player-container").innerHTML = "";
                 }
             }
         }
